@@ -5,8 +5,8 @@
   "description": "react manual test",
   "main": "index.tsx",
   "scripts": {
-    "start": "webpack serve --mode development --progress --hot",
-    "build": "webpack --mode production "
+    "start": "webpack serve --mode development --progress --env NODE_ENV=development --hot",
+    "build": "webpack --mode production --env NODE_ENV=production"
   },
   "license": "ISC",
   "dependencies": {
@@ -21,18 +21,17 @@
     "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime": "^7.15.4",
     "@hot-loader/react-dom": "^17.0.1",
-    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
-    "@types/webpack": "^5.28.0",
-    "@types/webpack-dev-server": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.1.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fork-ts-checker-webpack-plugin": "^6.4.0",
+    "html-webpack-plugin": "^5.5.0",
     "react-hot-loader": "^4.13.0",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4",

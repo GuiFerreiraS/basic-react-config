@@ -1,17 +1,32 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "es6",
+    "module": "ES2020",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
+    "removeComments": true,
+    "lib": ["es2016", "dom"],
+    "outDir": "./build",
+    "baseUrl": "./",
+    "paths": {
+      "_app/*": ["./src/app/*"],
+      "_assets/*": ["./src/assets/*"],
+      "_components/*": ["./src/components/*"],
+      "_services/*": ["./src/services/*"],
+      "_adapters/*": ["./src/adapters/*"],
+      "_constants/*": ["./src/constants/*"],
+      "_context/*": ["./src/context/*"],
+      "_interfaces/*": ["./src/interfaces/*"],
+      "_utils/*": ["./src/utils/*"]
+    }
+
   },
-  "include": ["src"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "**/*.test.ts", "**/*.spec.ts"]
 }
