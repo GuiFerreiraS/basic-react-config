@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { hot } from "react-hot-loader/root";
 
@@ -12,10 +13,17 @@ const App = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const resetCounter = () => {
+    setCount(0);
+  };
+
   return (
     <>
       <h1>Teste Firefox</h1>
       <h2>Count: {count}</h2>
+      <Button variant="contained" color="primary" onClick={resetCounter}>
+        Reset Counter
+      </Button>
     </>
   );
 };
