@@ -11,8 +11,8 @@ const typescriptAndBabelLoaders = {
   use: [{ loader: "babel-loader", options: { cacheDirectory: true } }],
 };
 
-const lessLoader = {
-  test: /\.less$/,
+const sassLoader = {
+  test: /\.s[ac]ss$/i,
   exclude: /node_modules/,
   use: [
     {
@@ -22,12 +22,7 @@ const lessLoader = {
       loader: "css-loader",
     },
     {
-      loader: "less-loader",
-      options: {
-        lessOptions: {
-          javascriptEnabled: true,
-        },
-      },
+      loader: "sass-loader",
     },
   ],
 };
@@ -135,7 +130,7 @@ module.exports = (env) => {
     module: {
       rules: [
         transpilerLoader,
-        lessLoader,
+        sassLoader,
         fontsLoader,
         imagesLoader,
         videosLoader,

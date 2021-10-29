@@ -12,14 +12,10 @@ const App = () => {
     return () => clearInterval(interval);
   }, []);
 
-  function displayCount(message: string): string {
-    return message;
-  }
-
   return (
     <>
       <h1>Teste Firefox</h1>
-      <h2>{displayCount(`Count: ${count}`)}</h2>
+      <h2>Count: {count}</h2>
     </>
   );
 };
