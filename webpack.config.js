@@ -3,81 +3,69 @@ const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const buildPath = path.resolve(__dirname, "build");
 
-const typescriptAndBabelLoaders = {
+const transpilerLoader = {
   test: /\.tsx?$/,
   exclude: /node_modules/,
-  use: [{ loader: "babel-loader", options: { cacheDirectory: true } }],
+  use: [
+    {
+      loader: "babel-loader",
+      options: {
+        cacheDirectory: true,
+        presets: [
+          "@babel/preset-env",
+          "@babel/preset-react",
+          "@babel/preset-typescript",
+        ],
+      },
+    },
+  ],
 };
 
 const sassLoader = {
   test: /\.s[ac]ss$/i,
   exclude: /node_modules/,
-  use: [
-    {
-      loader: "style-loader",
-    },
-    {
-      loader: "css-loader",
-    },
-    {
-      loader: "sass-loader",
-    },
-  ],
+  use: ["style-loader", "css-loader", "sass-loader"],
 };
 
-const fontsLoader = {
-  test: /\.woff2?$/,
-  use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "[name].[ext]",
-        outputPath: "fonts/",
-      },
-    },
-  ],
-};
+// const imagesLoader = {
+//   test: [/\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
+//   use: [
+//     {
+//       loader: "file-loader",
+//       options: {
+//         name: "[name].[hash:8].[ext]",
+//         outputPath: "images/",
+//       },
+//     },
+//   ],
+// };
 
-const imagesLoader = {
-  test: [/\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
-  use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "[name].[hash:8].[ext]",
-        outputPath: "images/",
-      },
-    },
-  ],
-};
+// const videosLoader = {
+//   test: [/\.mp4$/, /\.mov$/, /\.vtt$/],
+//   use: [
+//     {
+//       loader: "file-loader",
+//       options: {
+//         name: "[name].[hash:8].[ext]",
+//         outputPath: "videos/",
+//       },
+//     },
+//   ],
+// };
 
-const videosLoader = {
-  test: [/\.mp4$/, /\.mov$/, /\.vtt$/],
-  use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "[name].[hash:8].[ext]",
-        outputPath: "videos/",
-      },
-    },
-  ],
-};
-
-const pdfsLoader = {
-  test: /\.pdf$/,
-  use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "[name].[hash:8].[ext]",
-        outputPath: "pdfs/",
-      },
-    },
-  ],
-};
+// const pdfsLoader = {
+//   test: /\.pdf$/,
+//   use: [
+//     {
+//       loader: "file-loader",
+//       options: {
+//         name: "[name].[hash:8].[ext]",
+//         outputPath: "pdfs/",
+//       },
+//     },
+//   ],
+// };
 
 const alias = {
   _app: path.resolve("./", "src", "app"),
@@ -93,34 +81,20 @@ const alias = {
   "react-dom": "@hot-loader/react-dom",
 };
 
+const cleanWebPackPlugin = new CleanWebpackPlugin();
+const forkTsCheckerWebpackPlugin = new ForkTsCheckerWebpackPlugin();
 const htmlWebPackPlugin = new HtmlWebPackPlugin({
   template: "./public/index.html",
   filename: "./index.html",
 });
 
-const cleanWebPackPlugin = new CleanWebpackPlugin();
-const forkTsCheckerWebpackPlugin = new ForkTsCheckerWebpackPlugin();
-
-const devServer = {
-  static: {
-    directory: path.join(__dirname, "public"),
-    watch: { usePolling: true, ignored: "node_modules/**" },
-  },
-  compress: true,
-  port: 4000,
-  historyApiFallback: true,
-  open: true,
-  host: "localhost",
-};
-
 module.exports = (env) => {
   const isProduction = env.NODE_ENV === "production";
-  const transpilerLoader = typescriptAndBabelLoaders;
 
   return {
     output: {
       filename: "main-[chunkhash].js",
-      path: buildPath,
+      path: path.resolve(__dirname, "build"),
       publicPath: "/",
     },
     resolve: {
@@ -131,10 +105,9 @@ module.exports = (env) => {
       rules: [
         transpilerLoader,
         sassLoader,
-        fontsLoader,
-        imagesLoader,
-        videosLoader,
-        pdfsLoader,
+        // imagesLoader,
+        // videosLoader,
+        // pdfsLoader,
       ],
     },
     plugins: [
@@ -142,7 +115,17 @@ module.exports = (env) => {
       cleanWebPackPlugin,
       htmlWebPackPlugin,
     ],
-    devServer,
+    devServer: {
+      static: {
+        directory: path.join(__dirname, "public"),
+        watch: { usePolling: true, ignored: "node_modules/**" },
+      },
+      compress: true,
+      port: 4000,
+      historyApiFallback: true,
+      open: true,
+      host: "localhost",
+    },
     devtool: !isProduction ? "eval-cheap-module-source-map" : undefined, //eval-source-map
   };
 };
